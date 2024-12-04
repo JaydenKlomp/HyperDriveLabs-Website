@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Hyberdrivelabs</h1>
+    </header>
+    <main>
+        <!-- Dynamic Content Container -->
+        <div class="form-container" id="dynamic-container">
+            <!-- The content will be dynamically loaded here -->
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const dynamicContainer = document.getElementById("dynamic-container");
+
+            const apiBase = "https://carapi.mercantec.tech/api/";
+
+            // Templates for login, signup, and email confirmation
+            const templates = {
+                login: `
+                    <h2>Login</h2>
+                    <form id="login-form" class="styled-form">
+                        <div class="form-group">
+                            <label for="login-email">Email:</label>
+                            <input type="email" id="login-email" placeholder="Enter your email" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password:</label>
+                            <input type="password" id="login-password" placeholder="Enter your password" required />
+                        </div>
+                        <button type="submit" class="primary-button">Log In</button>
+                    </form>
+                    <div class="message-box" id="login-message"></div>
+                    <a href="#" class="toggle-link" id="toggle-to-signup">Don't have an account? Sign Up</a>
+                `,
+                signup: `
+                    <h2>Sign Up</h2>
+                    <form id="signup-form" class="styled-form">
+                        <div class="form-group">
+                            <label for="signup-email">Email:</label>
+                            <input type="email" id="signup-email" placeholder="Enter your email" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-username">Username:</label>
+                            <input type="text" id="signup-username" placeholder="Choose a username" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password:</label>
+                            <input type="password" id="signup-password" placeholder="Create a password" required />
+                        </div>
+                        <button type="submit" class="primary-button">Sign Up</button>
+                    </form>
+                    <div class="message-box" id="signup-message"></div>
+                    <a href="#" class="toggle-link" id="toggle-to-login">Already have an account? Log In</a>
+                `,
+                confirmation: `
+                    <h2>Confirm Your Email</h2>
+                    <p>An email has been send to you, check your inbox!:</p>
+                    <button id="confirm-email" class="primary-button">Return to login</button>
+                    <a href="#" class="toggle-link" id="toggle-to-signup">Don't have an account? Sign Up</a>
+                `,
+            };
+
+            // Load a specific section dynamically
+            const loadSection = (section) => {
+                dynamicContainer.innerHTML = templates[section];
+                attachEventListeners(section);
+            };
+
+            // Attach event listeners to the dynamic content
+            const attachEventListeners = (section) => {
+                if (section === "login") {
+                    document.getElementById("login-form").addEventListener("submit", async (event) => {
+                        event.preventDefault();
+                        const email = document.getElementById("login-email").value;
+                        const password = document.getElementById("login-password").value;
+
+                        try {
+                            const response = await fetch(`${apiBase}Users/login`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ email, password }),
+                            });
+
+                            const data = await response.json();
+
+                            if (response.ok) {
+                                localStorage.setItem("token", data.token);
+                                localStorage.setItem("username", data.username);
+                                window.location.href = "index.html";
+                            } else {
+                                showMessage(data.message || "Login failed", "error", "login-message");
+                            }
+                        } catch (error) {
+                            showMessage("An unexpected error occurred", "error", "login-message");
+                        }
+                    });
+
+                    document.getElementById("toggle-to-signup").addEventListener("click", (e) => {
+                        e.preventDefault();
+                        loadSection("signup");
+                    });
+                } else if (section === "signup") {
+                    document.getElementById("signup-form").addEventListener("submit", async (event) => {
+                        event.preventDefault();
+                        const email = document.getElementById("signup-email").value;
+                        const username = document.getElementById("signup-username").value;
+                        const password = document.getElementById("signup-password").value;
+
+                        try {
+                            const response = await fetch(`${apiBase}Users/signUp`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ email, username, password }),
+                            });
+
+                            const data = await response.json();
+
+                            if (response.ok) {
+                                localStorage.setItem("emailConfirmationToken", data.emailConfirmationToken);
+                                localStorage.setItem("email", email);
+                                loadSection("confirmation");
+                            } else {
+                                showMessage(data.message || "Sign-up failed", "error", "signup-message");
+                            }
+                        } catch (error) {
+                            showMessage("An error occurred during sign-up.", "error", "signup-message");
+                        }
+                    });
+
+                    document.getElementById("toggle-to-login").addEventListener("click", (e) => {
+                        e.preventDefault();
+                        loadSection("login");
+                    });
+                } else if (section === "confirmation") {
+                    document.getElementById("confirm-email").addEventListener("click", async () => {
+                        const token = localStorage.getItem("emailConfirmationToken");
+                        const email = localStorage.getItem("email");
+
+                        if (!token || !email) {
+                            showMessage("No confirmation details found.", "error", "confirmation-message");
+                            return;
+                        }
+
+                        try {
+                            const response = await fetch(`${apiBase}Users/confirm-email?token=${token}&email=${email}`, {
+                                method: "GET",
+                            });
+
+                            if (response.ok) {
+                                showMessage("Email confirmed! You can now log in.", "success", "confirmation-message");
+                                setTimeout(() => loadSection("login"), 2000);
+                            } else {
+                                showMessage("Email confirmation failed.", "error", "confirmation-message");
+                            }
+                        } catch (error) {
+                            showMessage("An error occurred during email confirmation.", "error", "confirmation-message");
+                        }
+                    });
+                }
+            };
+
+            // Show messages dynamically
+            const showMessage = (message, type = "error", target) => {
+                const messageBox = document.getElementById(target);
+                messageBox.textContent = message;
+                messageBox.className = `message-box ${type}`;
+            };
+
+            // Initialize the page with the login form
+            loadSection("login");
+        });
+    </script>
+</body>
+</html>

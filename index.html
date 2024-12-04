@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Integration Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Press+Start+2P&family=Gloria+Hallelujah&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        // Check if the user is logged in
+        document.addEventListener("DOMContentLoaded", () => {
+            const token = localStorage.getItem("token"); // Retrieve token from localStorage
+
+            if (!token) {
+                // Redirect to login.html if no token is found
+                window.location.href = "login.html";
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Hyberdrivelabs Dashboard</h1>
+        <div class="dark-mode-toggle">
+            <input type="checkbox" id="dark-mode-toggle">
+            <label for="dark-mode-toggle" class="toggle-label">
+                <span class="sun">🌞</span>
+                <span class="moon">🌙</span>
+            </label>
+        </div>
+        <button id="logout" class="logout-button">Logout</button>
+    </header>
+    
+    <main>
+        <!-- Section for Cars -->
+        <section id="cars-section" class="sensor">
+            <h2>Cars</h2>
+            <div id="car-list">
+                <p>Loading...</p>
+            </div>
+        </section>
+
+        <!-- Section for RPMs -->
+        <section id="rpms-section" class="sensor">
+            <h2>RPMs</h2>
+            <div id="rpm-list">
+                <p>Loading...</p>
+            </div>
+        </section>
+
+        <!-- Section for Temperature and Humidity -->
+        <section id="temp-humidity-section" class="sensor">
+            <h2>Temperature and Humidity</h2>
+            <div id="temp-humidity-list">
+                <p>Loading...</p>
+            </div>
+        </section>
+
+        <!-- Section for Users -->
+        <section id="users-section" class="sensor">
+            <h2>Users</h2>
+            <div id="user-list">
+                <p>Loading...</p>
+            </div>
+        </section>
+
+        <div id="user-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h3 id="modal-username"></h3>
+                <p><strong>Email:</strong> <span id="modal-email"></span></p>
+                <p><strong>ID:</strong> <span id="modal-id"></span></p>
+                <p><strong>Last Login:</strong> <span id="modal-last-login"></span></p>
+                <!-- Add other user details as needed -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Load Scripts -->
+    <script src="js/script.js"></script>
+</body>
+</html>

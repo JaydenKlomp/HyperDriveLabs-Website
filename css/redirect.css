@@ -1,0 +1,139 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+main.confirmation-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Confirmation Container */
+.confirmation-container {
+    text-align: center;
+    border-radius: 12px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.5s ease;
+}
+
+/* Success Page Styles */
+body.success {
+    background: linear-gradient(135deg, #ffafbd, #ffc3a0, #fff1eb);
+    color: #2c3e50;
+}
+
+.confirmation-container.success {
+    background-color: #ffffff;
+    color: #27ae60; /* Green for success */
+    border: 3px solid #27ae60;
+}
+
+.confirmation-container.success h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #27ae60; /* Match the container border */
+    animation: bounceIn 1s ease;
+}
+
+.confirmation-container.success p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Fun animation for success */
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Failure Page Styles */
+body.failure {
+    background: linear-gradient(135deg, #232526, #414345); /* Dark gradient for failure */
+    color: #ecf0f1;
+}
+
+.confirmation-container.failure {
+    background-color: #2c3e50;
+    color: #e74c3c; /* Red for failure */
+    border: 3px solid #e74c3c;
+}
+
+.confirmation-container.failure h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #e74c3c; /* Match the container border */
+    animation: fadeIn 1s ease;
+}
+
+.confirmation-container.failure p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: #bdc3c7;
+}
+
+/* Subtle animation for failure */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Button Styles */
+.primary-button {
+    display: inline-block;
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.primary-button:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+
+body.failure .primary-button {
+    background-color: #e74c3c;
+}
+
+body.failure .primary-button:hover {
+    background-color: #c0392b;
+}

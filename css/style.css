@@ -1,0 +1,274 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+
+    /* Smooth transition for background and text color */
+    transition: background-color 0.8s ease, color 0.8s ease;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #f0f0f0;
+}
+
+/* Header */
+header {
+    text-align: center;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+    transition: background-color 0.8s ease, color 0.8s ease;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+body.dark-mode header {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+/* Logout Button */
+.logout-button {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: auto;
+}
+
+.logout-button:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
+
+body.dark-mode .logout-button {
+    background-color: #555;
+}
+
+/* Main Content Layout */
+main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Sensor Section Styling */
+.sensor {
+    background-color: #ffffff;
+    color: #2c3e50;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.8s ease, color 0.8s ease;
+}
+
+body.dark-mode .sensor {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    box-shadow: 0 6px 12px rgba(255, 255, 255, 0.1);
+}
+
+.sensor:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.sensor h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: inherit;
+}
+
+.sensor p {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+/* Dark Mode Toggle Wrapper */
+.dark-mode-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.dark-mode-toggle input[type="checkbox"] {
+    display: none;
+}
+
+.dark-mode-toggle .toggle-label {
+    cursor: pointer;
+    width: 60px;
+    height: 30px;
+    background-color: #ddd;
+    border-radius: 30px;
+    position: relative;
+    transition: background-color 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode-toggle .toggle-label .sun,
+.dark-mode-toggle .toggle-label .moon {
+    font-size: 18px;
+    position: absolute;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.dark-mode-toggle .toggle-label .sun {
+    left: 10px;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.dark-mode-toggle .toggle-label .moon {
+    right: 10px;
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.dark-mode-toggle input[type="checkbox"]:checked + .toggle-label {
+    background-color: #333;
+}
+
+.dark-mode-toggle input[type="checkbox"]:checked + .toggle-label .sun {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.dark-mode-toggle input[type="checkbox"]:checked + .toggle-label .moon {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    main {
+        grid-template-columns: 1fr;
+    }
+
+    .sensor {
+        padding: 15px;
+    }
+
+    .sensor h2 {
+        font-size: 1.3rem;
+    }
+
+    .sensor p {
+        font-size: 0.9rem;
+    }
+}
+
+.user-item {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.user-item:hover {
+    background-color: #f0f0f0;
+}
+
+body.dark-mode .user-item {
+    border-color: #555;
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .user-item:hover {
+    background-color: #333;
+}
+
+/* Modal styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+body.dark-mode .modal-content {
+    background: #1e1e1e;
+    color: #e0e0e0;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    background: #c0392b;
+}

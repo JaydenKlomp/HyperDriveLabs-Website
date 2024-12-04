@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation Failed</title>
+    <link rel="stylesheet" href="css/redirect.css">
+</head>
+<body class="failure">
+
+    <main class="confirmation-page">
+        <div class="confirmation-container failure">
+            <h1>Email Confirmation Failed ❌</h1>
+            <p>We could not confirm your email. The link may have expired, or something went wrong.</p>
+            <button onclick="redirectToLogin()" class="primary-button">Go to Login</button>
+        </div>
+    </main>
+
+    <script>
+        function redirectToLogin() {
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+</html>
